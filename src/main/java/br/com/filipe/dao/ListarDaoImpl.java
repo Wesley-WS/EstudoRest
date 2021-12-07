@@ -15,9 +15,11 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.json.JSONObject;
+import org.springframework.stereotype.Repository;
 
 import br.com.filipe.model.Filme;
 
+@Repository
 public class ListarDaoImpl implements ListarDao{
 
 	@Override
@@ -61,11 +63,11 @@ public class ListarDaoImpl implements ListarDao{
         }
         in.close();
 
-        JSONObject json = new JSONObject(response.toString());
+        /*JSONObject json = new JSONObject(response.toString());
         while(json.keys().hasNext()) {
         	String chave = json.keys().next();
         	System.out.println(json.get(chave));
-        }
+        }*/
         
        return response.toString();
 	}
