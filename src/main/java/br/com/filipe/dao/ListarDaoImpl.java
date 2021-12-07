@@ -6,16 +6,24 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.json.JSONObject;
+
+import br.com.filipe.model.Filme;
+
 public class ListarDaoImpl implements ListarDao{
 
 	@Override
 	public String listar() throws Exception {
+		List<Filme> filmes = new ArrayList<Filme>();
+		
 		TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager(){
 		    public X509Certificate[] getAcceptedIssuers(){return null;}
 		    public void checkClientTrusted(X509Certificate[] certs, String authType){}
@@ -42,19 +50,24 @@ public class ListarDaoImpl implements ListarDao{
         con.setRequestProperty("User-Agent", USER_AGENT);
         
         int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'GET' request to URL: " + url);
-        System.out.println("Response Code: " + responseCode);
+        //System.out.println("\nSending 'GET' request to URL: " + url);
+        //System.out.println("Response Code: " + responseCode);
         
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
         StringBuffer response = new StringBuffer();
         while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+        	response.append(inputLine);
         }
         in.close();
-        System.out.println("Response: " + response.toString());
+
+        JSONObject json = new JSONObject(response.toString());
+        while(json.keys().hasNext()) {
+        	String chave = json.keys().next();
+        	System.out.println(json.get(chave));
+        }
         
-        return response.toString();
+       return response.toString();
 	}
 
 }
