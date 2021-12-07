@@ -15,11 +15,9 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.json.JSONObject;
-import org.springframework.stereotype.Repository;
 
 import br.com.filipe.model.Filme;
 
-@Repository
 public class ListarDaoImpl implements ListarDao{
 
 	@Override
